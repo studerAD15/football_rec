@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Activity, CheckCircle2, Linkedin, Lock, Moon, RefreshCcw, SunMedium, Trophy, Users } from "lucide-react";
+import { Activity, CheckCircle2, Linkedin, Moon, RefreshCcw, SunMedium, Trophy, Users } from "lucide-react";
 import { AdminPage } from "./components/AdminPage";
 import { DraftBoard } from "./components/DraftBoard";
 import { apiUrl } from "./lib/api";
@@ -193,8 +193,22 @@ export default function App() {
         </section>
 
         <div className="space-y-5 sm:space-y-8">
-          <div className="mx-auto grid w-full max-w-[1180px] gap-5 xl:grid-cols-[320px_1fr]">
-            <section className="order-2 rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--panel)] p-4 shadow-[var(--shadow)] backdrop-blur sm:p-6 xl:order-1">
+          <div className="mx-auto w-full max-w-[1180px] space-y-4">
+            {error ? (
+              <div className="rounded-3xl border border-[color:var(--danger-line)] bg-[color:var(--danger)] px-4 py-3 text-sm text-red-200">
+                {error}
+              </div>
+            ) : null}
+            <DraftBoard
+              players={{
+                ...draftState,
+                onPick: handlePick,
+              }}
+            />
+          </div>
+
+          <div className="mx-auto w-full max-w-[1180px]">
+            <section className="rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--panel)] p-4 shadow-[var(--shadow)] backdrop-blur sm:p-6">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div className="max-w-2xl">
                   <p className="font-section text-xs uppercase tracking-[0.22em] text-[color:var(--text-muted)]">
@@ -202,7 +216,7 @@ export default function App() {
                   </p>
                   <h2 className="font-display mt-2 text-2xl font-black sm:mt-3 sm:text-3xl">Choose Today&apos;s Players</h2>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--text-soft)] sm:mt-3 sm:leading-7 sm:text-base">
-                    Pick only the players who are actually playing today. The draft arena below will use this selected pool.
+                    Keep the full roster above and select only the players who are playing today before you start the draft.
                   </p>
                 </div>
 
@@ -237,21 +251,21 @@ export default function App() {
                     <button
                       key={player.id}
                       onClick={() => togglePlayerSelection(player.id)}
-                      className={`rounded-[1rem] border px-3 py-2.5 text-left transition sm:rounded-[1.2rem] sm:py-3 ${
+                      className={`rounded-[0.95rem] border px-3 py-2 text-left transition sm:rounded-[1.1rem] sm:px-3.5 sm:py-2.5 ${
                         selected
                           ? "border-[color:var(--line-strong)] bg-[color:var(--badge)]"
                           : "border-[color:var(--line)] bg-[color:var(--panel-soft)]"
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="font-section truncate text-sm font-semibold text-[color:var(--text-main)] sm:text-base">
+                          <p className="font-section truncate text-[13px] font-semibold text-[color:var(--text-main)] sm:text-sm">
                             {player.name}
                           </p>
-                          <p className="mt-1 text-xs text-[color:var(--text-soft)] sm:text-sm">{player.position} - {player.skillLevel}</p>
+                          <p className="mt-0.5 text-[11px] text-[color:var(--text-soft)] sm:text-xs">{player.skillLevel}</p>
                         </div>
                         <span
-                          className={`inline-flex h-6 min-w-6 items-center justify-center rounded-full border px-1 text-[10px] font-semibold sm:text-xs ${
+                          className={`inline-flex h-5 min-w-5 items-center justify-center rounded-full border px-1 text-[9px] font-semibold sm:h-6 sm:min-w-6 sm:text-[10px] ${
                             selected
                               ? "border-[color:var(--line-strong)] bg-[color:var(--accent)] text-[color:var(--accent-text)]"
                               : "border-[color:var(--line)] text-[color:var(--text-muted)]"
@@ -273,63 +287,6 @@ export default function App() {
                 </div>
               </div>
             </section>
-
-            <section className="order-1 rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--panel)] p-4 shadow-[var(--shadow)] backdrop-blur sm:hidden">
-              <div className="flex items-start gap-3">
-                <div className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--panel-soft)] p-3 text-[color:var(--accent)]">
-                  <Lock size={18} />
-                </div>
-                <div>
-                  <p className="font-section text-xs uppercase tracking-[0.22em] text-[color:var(--text-muted)]">
-                    Owner Control
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-[color:var(--text-soft)]">
-                    Roster edits stay on the protected admin page.
-                  </p>
-                </div>
-              </div>
-            </section>
-
-            <section className="order-3 rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--panel)] p-4 shadow-[var(--shadow)] backdrop-blur sm:p-6 xl:order-2">
-              <div className="flex items-start gap-3">
-                <div className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--panel-soft)] p-3 text-[color:var(--accent)]">
-                  <Lock size={18} />
-                </div>
-                <div>
-                  <p className="font-section text-xs uppercase tracking-[0.22em] text-[color:var(--text-muted)]">
-                    Owner Control
-                  </p>
-                  <h2 className="mt-2 text-2xl font-black text-[color:var(--text-main)]">Roster is locked on public view</h2>
-                  <p className="mt-3 text-sm leading-7 text-[color:var(--text-soft)]">
-                    Adding and deleting players is no longer available on the main website. Only protected backend
-                    admin endpoints can change the roster.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 rounded-[1.5rem] border border-[color:var(--line)] bg-[color:var(--panel-soft)] p-4 text-sm text-[color:var(--text-soft)]">
-                <p className="font-section text-xs uppercase tracking-[0.22em] text-[color:var(--text-muted)]">
-                  Admin API
-                </p>
-                <p className="mt-3">Create player: <code>POST /api/admin/players</code></p>
-                <p className="mt-2">Delete player: <code>DELETE /api/admin/players/:id</code></p>
-                <p className="mt-2">Required header: <code>x-admin-key: your-secret-key</code></p>
-              </div>
-            </section>
-          </div>
-
-          <div className="mx-auto w-full max-w-[1180px] space-y-4">
-            {error ? (
-              <div className="rounded-3xl border border-[color:var(--danger-line)] bg-[color:var(--danger)] px-4 py-3 text-sm text-red-200">
-                {error}
-              </div>
-            ) : null}
-            <DraftBoard
-              players={{
-                ...draftState,
-                onPick: handlePick,
-              }}
-            />
           </div>
         </div>
 

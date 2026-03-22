@@ -143,7 +143,7 @@ export function DraftBoard({ players }) {
                     : "border-[color:var(--line)] bg-[color:var(--panel-soft)] hover:border-[color:var(--line-strong)]"
                 }`}
               >
-                <div className="relative h-44 bg-gradient-to-br from-emerald-700/70 via-teal-700/40 to-slate-950 sm:h-72">
+                <div className="relative h-40 bg-gradient-to-br from-emerald-700/70 via-teal-700/40 to-slate-950 sm:h-72">
                   {player.photoUrl ? (
                     <img
                       src={resolvePhotoUrl(player.photoUrl)}
@@ -175,7 +175,7 @@ export function DraftBoard({ players }) {
 
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <PositionBadge position={player.position} />
-                    <span className="text-xs text-[color:var(--text-muted)]">
+                    <span className="text-[11px] text-[color:var(--text-muted)] sm:text-xs">
                       Priority {getPlayerWeight(player)} - Balance delta {player.recommendationScore}
                     </span>
                   </div>
