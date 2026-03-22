@@ -243,7 +243,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="mt-4 grid gap-2 sm:mt-6 sm:gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-3 md:grid-cols-4">
                 {players.map((player) => {
                   const selected = selectedPlayerIds.includes(player.id);
 
