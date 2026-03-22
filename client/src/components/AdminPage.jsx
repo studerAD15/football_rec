@@ -18,6 +18,19 @@ function resolvePhotoUrl(photoUrl) {
   return assetUrl(photoUrl);
 }
 
+async function readErrorMessage(response, fallbackMessage) {
+  try {
+    const data = await response.json();
+    if (data?.error) {
+      return data.error;
+    }
+  } catch {
+    // Ignore JSON parse failures and use the fallback below.
+  }
+
+  return fallbackMessage;
+}
+
 export function AdminPage({ theme, setTheme }) {
   const [adminKey, setAdminKey] = useState(() => localStorage.getItem("ftb-admin-key") || "");
   const [players, setPlayers] = useState([]);
@@ -73,7 +86,7 @@ export function AdminPage({ theme, setTheme }) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create player. Check your admin key.");
+        throw new Error(await readErrorMessage(response, "Failed to create player."));
       }
 
       setStatus("Player created.");
@@ -99,7 +112,7 @@ export function AdminPage({ theme, setTheme }) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete player. Check your admin key.");
+        throw new Error(await readErrorMessage(response, "Failed to delete player."));
       }
 
       setStatus("Player deleted.");

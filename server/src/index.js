@@ -144,6 +144,13 @@ app.post("/api/admin/players", requireAdmin, upload.single("photo"), async (requ
       await cloudinary.uploader.destroy(uploadedImage.public_id).catch(() => {});
     }
 
+    console.error("Failed to save player", {
+      message: error?.message,
+      name: error?.name,
+      httpCode: error?.http_code,
+      adminUpload: Boolean(request.file),
+    });
+
     return response.status(500).json({ error: "Failed to save player." });
   }
 });
