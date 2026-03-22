@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #19342b;
+  background: #f4eeec;
+  font-family: "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-section: "Trebuchet MS", "Segoe UI", sans-serif;
+  --page-bg:
+    linear-gradient(180deg, rgba(233, 25, 25, 0.12) 0%, transparent 22%),
+    radial-gradient(circle at bottom left, rgba(152, 201, 197, 0.24), transparent 26%),
+    linear-gradient(180deg, #f5efee 0%, #f7f2f1 48%, #d4ece7 82%, #367189 100%);
+  --panel: rgba(255, 247, 246, 0.82);
+  --panel-strong: rgba(255, 252, 252, 0.96);
+  --panel-soft: rgba(255, 255, 255, 0.54);
+  --panel-muted: rgba(54, 113, 137, 0.08);
+  --line: rgba(54, 113, 137, 0.14);
+  --line-strong: rgba(233, 25, 25, 0.26);
+  --text-main: #173341;
+  --text-soft: rgba(23, 51, 65, 0.76);
+  --text-muted: rgba(23, 51, 65, 0.55);
+  --accent: #e91919;
+  --accent-strong: #c81414;
+  --accent-text: #fff7f6;
+  --badge: rgba(233, 25, 25, 0.1);
+  --danger: rgba(233, 25, 25, 0.08);
+  --danger-line: rgba(233, 25, 25, 0.18);
+  --shadow: 0 20px 50px rgba(54, 113, 137, 0.14);
+}
+
+:root[data-theme="dark"] {
+  color: #eff7e7;
+  background: #88b178;
+  --page-bg:
+    radial-gradient(circle at top, rgba(230, 248, 175, 0.18), transparent 24%),
+    linear-gradient(180deg, #88b178 0%, #a7cc8d 32%, #cbe7bb 65%, #e5f6ab 100%);
+  --panel: rgba(58, 86, 54, 0.42);
+  --panel-strong: rgba(71, 104, 65, 0.62);
+  --panel-soft: rgba(236, 248, 219, 0.14);
+  --panel-muted: rgba(236, 248, 219, 0.1);
+  --line: rgba(240, 249, 229, 0.16);
+  --line-strong: rgba(229, 246, 171, 0.42);
+  --text-main: #f4f9ec;
+  --text-soft: rgba(244, 249, 236, 0.78);
+  --text-muted: rgba(244, 249, 236, 0.58);
+  --accent: #e5f6ab;
+  --accent-strong: #d6ee8a;
+  --accent-text: #31472a;
+  --badge: rgba(229, 246, 171, 0.14);
+  --danger: rgba(107, 20, 20, 0.18);
+  --danger-line: rgba(255, 208, 208, 0.18);
+  --shadow: 0 20px 50px rgba(44, 61, 40, 0.2);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--page-bg);
+  color: var(--text-main);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-section {
+  font-family: var(--font-section);
+}

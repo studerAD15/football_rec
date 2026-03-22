@@ -1,0 +1,154 @@
+[
+  {
+    "id": "p1774169525475",
+    "name": "MADAN",
+    "photoUrl": "/uploads/1774169525463-223235234.png",
+    "position": "Midfielder",
+    "skillLevel": "Pro",
+    "createdAt": "2026-03-22T08:52:05.473Z"
+  },
+  {
+    "id": "p1774169655433",
+    "name": "JOHN",
+    "photoUrl": "/uploads/1774169655422-327329759.png",
+    "position": "Striker",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T08:54:15.429Z"
+  },
+  {
+    "id": "p1774169687390",
+    "name": "JUAN",
+    "photoUrl": "/uploads/1774169687382-993286321.png",
+    "position": "Striker",
+    "skillLevel": "Beginner",
+    "createdAt": "2026-03-22T08:54:47.387Z"
+  },
+  {
+    "id": "p1774169715871",
+    "name": "SHIVAM",
+    "photoUrl": "/uploads/1774169715854-609509730.png",
+    "position": "Striker",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T08:55:15.867Z"
+  },
+  {
+    "id": "p1774169757536",
+    "name": "RAJAT",
+    "photoUrl": "/uploads/1774169757528-634563294.png",
+    "position": "Midfielder",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T08:55:57.534Z"
+  },
+  {
+    "id": "p1774169805435",
+    "name": "PICACHU",
+    "photoUrl": "/uploads/1774169805425-106999784.png",
+    "position": "Midfielder",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T08:56:45.433Z"
+  },
+  {
+    "id": "p1774170019216",
+    "name": "ELLA",
+    "photoUrl": "/uploads/1774170019201-882099193.png",
+    "position": "Midfielder",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:00:19.210Z"
+  },
+  {
+    "id": "p1774170248483",
+    "name": "VISHAL",
+    "photoUrl": "/uploads/1774170248468-603776861.png",
+    "position": "Striker",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:04:08.480Z"
+  },
+  {
+    "id": "p1774170261970",
+    "name": "NIRAJ",
+    "photoUrl": "/uploads/1774170261964-240797660.png",
+    "position": "Midfielder",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:04:21.967Z"
+  },
+  {
+    "id": "p1774170337822",
+    "name": "DEEPESH",
+    "photoUrl": "/uploads/1774170337808-204849162.png",
+    "position": "Midfielder",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:05:37.813Z"
+  },
+  {
+    "id": "p1774170353132",
+    "name": "BABU",
+    "photoUrl": "/uploads/1774170353121-789281684.png",
+    "position": "Striker",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:05:53.129Z"
+  },
+  {
+    "id": "p1774170375528",
+    "name": "YADAB",
+    "photoUrl": "/uploads/1774170375519-989988090.png",
+    "position": "GK",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:06:15.524Z"
+  },
+  {
+    "id": "p1774170408950",
+    "name": "ADITYA",
+    "photoUrl": "/uploads/1774170408937-363261035.png",
+    "position": "Defender",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:06:48.945Z"
+  },
+  {
+    "id": "p1774170438654",
+    "name": "SOMU",
+    "photoUrl": "",
+    "position": "Defender",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:07:18.653Z"
+  },
+  {
+    "id": "p1774170445676",
+    "name": "ARUN",
+    "photoUrl": "",
+    "position": "Defender",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:07:25.674Z"
+  },
+  {
+    "id": "p1774170453005",
+    "name": "ISHMAN",
+    "photoUrl": "",
+    "position": "Defender",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:07:33.003Z"
+  },
+  {
+    "id": "p1774170469062",
+    "name": "JOHN'S FATHER",
+    "photoUrl": "",
+    "position": "Striker",
+    "skillLevel": "Intermediate",
+    "createdAt": "2026-03-22T09:07:49.057Z"
+  },
+  {
+    "id": "p1774170624466",
+    "name": "NITIN",
+    "photoUrl": "/uploads/1774170624457-771274614.png",
+    "position": "GK",
+    "skillLevel": "Pro",
+    "createdAt": "2026-03-22T09:10:24.463Z"
+  },
+  {
+    "id": "p1774170648725",
+    "name": "DEEPU",
+    "photoUrl": "",
+    "position": "Striker",
+    "skillLevel": "Pro",
+    "createdAt": "2026-03-22T09:10:48.724Z"
+  }
+]
