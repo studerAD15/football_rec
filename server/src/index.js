@@ -1,9 +1,8 @@
 import express from "express";
 import cors from "cors";
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
+import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
+import streamifier from "streamifier";
 import { getPlayersCollection } from "./lib/mongo.js";
 
 const app = express();
@@ -12,32 +11,15 @@ const validPositions = new Set(["Striker", "Midfielder", "Defender", "GK"]);
 const validLevels = new Set(["Beginner", "Intermediate", "Pro"]);
 const adminApiKey = process.env.ADMIN_API_KEY;
 const frontendUrl = process.env.FRONTEND_URL;
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const uploadsDir = process.env.UPLOADS_DIR
-  ? path.resolve(process.env.UPLOADS_DIR)
-  : path.resolve(__dirname, "../uploads");
 
-app.use(
-  cors({
-    origin: frontendUrl ? [frontendUrl] : true,
-  }),
-);
-app.use(express.json());
-app.use("/uploads", express.static(uploadsDir));
-
-const storage = multer.diskStorage({
-  destination: async (_request, _file, callback) => {
-    await fs.mkdir(uploadsDir, { recursive: true });
-    callback(null, uploadsDir);
-  },
-  filename: (_request, file, callback) => {
-    const extension = path.extname(file.originalname || "").toLowerCase() || ".png";
-    callback(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extension}`);
-  },
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: {
     fileSize: 5 * 1024 * 1024,
   },
@@ -46,6 +28,13 @@ const upload = multer({
   },
 });
 
+app.use(
+  cors({
+    origin: frontendUrl ? [frontendUrl] : true,
+  }),
+);
+app.use(express.json());
+
 function mapPlayer(player) {
   return {
     id: player._id.toString(),
@@ -53,6 +42,7 @@ function mapPlayer(player) {
     photoUrl: player.photoUrl,
     position: player.position,
     skillLevel: player.skillLevel,
+    imagePublicId: player.imagePublicId ?? "",
   };
 }
 
@@ -76,6 +66,27 @@ function requireAdmin(request, response, next) {
   return next();
 }
 
+function uploadToCloudinary(fileBuffer) {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: "football-team-balancer",
+        resource_type: "image",
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+
+        resolve(result);
+      },
+    );
+
+    streamifier.createReadStream(fileBuffer).pipe(uploadStream);
+  });
+}
+
 app.get("/api/health", (_request, response) => {
   response.json({ ok: true, database: process.env.MONGODB_DB_NAME || "football_team_balancer" });
 });
@@ -91,21 +102,28 @@ app.get("/api/players", async (_request, response) => {
 
 app.post("/api/admin/players", requireAdmin, upload.single("photo"), async (request, response) => {
   const { name, photoUrl = "", position, skillLevel } = request.body;
-  const uploadedPhotoPath = request.file ? `/uploads/${request.file.filename}` : "";
-  const finalPhotoUrl = uploadedPhotoPath || String(photoUrl).trim();
 
   if (!name || !validPositions.has(position) || !validLevels.has(skillLevel)) {
-    if (request.file) {
-      await fs.unlink(request.file.path).catch(() => {});
-    }
     return response.status(400).json({ error: "Invalid player payload." });
   }
 
+  let uploadedImage;
+
   try {
+    if (request.file) {
+      if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+        return response.status(503).json({ error: "Cloudinary is not configured." });
+      }
+
+      uploadedImage = await uploadToCloudinary(request.file.buffer);
+    }
+
+    const finalPhotoUrl = uploadedImage?.secure_url || String(photoUrl).trim();
     const playersCollection = await getPlayersCollection();
     const player = {
       name: String(name).trim(),
       photoUrl: finalPhotoUrl,
+      imagePublicId: uploadedImage?.public_id || "",
       position,
       skillLevel,
       createdAt: new Date(),
@@ -117,13 +135,15 @@ app.post("/api/admin/players", requireAdmin, upload.single("photo"), async (requ
       id: result.insertedId.toString(),
       name: player.name,
       photoUrl: player.photoUrl,
+      imagePublicId: player.imagePublicId,
       position: player.position,
       skillLevel: player.skillLevel,
     });
   } catch (error) {
-    if (request.file) {
-      await fs.unlink(request.file.path).catch(() => {});
+    if (uploadedImage?.public_id) {
+      await cloudinary.uploader.destroy(uploadedImage.public_id).catch(() => {});
     }
+
     return response.status(500).json({ error: "Failed to save player." });
   }
 });
@@ -141,9 +161,8 @@ app.delete("/api/admin/players/:id", requireAdmin, async (request, response) => 
       return response.status(404).json({ error: "Player not found." });
     }
 
-    if (targetPlayer?.photoUrl?.startsWith("/uploads/")) {
-      const targetPath = path.resolve(uploadsDir, path.basename(targetPlayer.photoUrl));
-      await fs.unlink(targetPath).catch(() => {});
+    if (targetPlayer?.imagePublicId) {
+      await cloudinary.uploader.destroy(targetPlayer.imagePublicId).catch(() => {});
     }
 
     return response.status(204).send();
@@ -153,7 +172,6 @@ app.delete("/api/admin/players/:id", requireAdmin, async (request, response) => 
 });
 
 async function startServer() {
-  await fs.mkdir(uploadsDir, { recursive: true });
   app.listen(port, () => {
     console.log(`Football Team Balancer API listening on http://localhost:${port}`);
   });

@@ -10,6 +10,10 @@ Owner-only routes:
 Owner admin page:
 - `http://localhost:5173/admin`
 
+Images:
+- File uploads are stored in Cloudinary
+- The backend saves the returned hosted image URL in the player record
+
 Required header:
 
 ```http

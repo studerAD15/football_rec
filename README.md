@@ -1,6 +1,6 @@
 # Football Team Balancer
 
-React + Vite frontend with Tailwind CSS and Framer Motion, backed by an Express API with protected admin uploads.
+React + Vite frontend with Tailwind CSS and Framer Motion, backed by an Express API with protected admin uploads stored in Cloudinary.
 
 ## Folder structure
 
@@ -51,18 +51,24 @@ Local defaults:
 ## Render deployment
 
 Use the included `render.yaml` to create:
-- one Node web service for the API
-- one static site for the frontend
-- one persistent disk mounted at `/var/data` for uploaded images
+- one Node web service for the API on Render
+- one frontend service definition you can use on Render if needed
+
+For your free setup, deploy:
+- backend on Render
+- frontend on Vercel
+- image uploads in Cloudinary
 
 Required backend env vars on Render:
 - `ADMIN_API_KEY`
 - `FRONTEND_URL`
 - `MONGODB_URI` if you switch back to Atlas
 - `MONGODB_DB_NAME`
-- `UPLOADS_DIR=/var/data/uploads`
+- `CLOUDINARY_CLOUD_NAME`
+- `CLOUDINARY_API_KEY`
+- `CLOUDINARY_API_SECRET`
 
-Required frontend env var on Render:
+Required frontend env var on Vercel or Render:
 - `VITE_API_URL`
 
 ## Main logic component

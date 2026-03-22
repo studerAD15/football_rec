@@ -13,12 +13,12 @@ services:
         sync: false
       - key: FRONTEND_URL
         sync: false
-      - key: UPLOADS_DIR
-        value: /var/data/uploads
-    disk:
-      name: football-balancer-uploads
-      mountPath: /var/data
-      sizeGB: 1
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
 
   - type: web
     name: football-balancer-client
