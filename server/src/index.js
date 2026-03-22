@@ -7,14 +7,21 @@ import multer from "multer";
 import { getPlayersCollection } from "./lib/mongo.js";
 
 const app = express();
-const port = 4000;
+const port = Number(process.env.PORT || 4000);
 const validPositions = new Set(["Striker", "Midfielder", "Defender", "GK"]);
 const validLevels = new Set(["Beginner", "Intermediate", "Pro"]);
 const adminApiKey = process.env.ADMIN_API_KEY;
+const frontendUrl = process.env.FRONTEND_URL;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const uploadsDir = path.resolve(__dirname, "../uploads");
+const uploadsDir = process.env.UPLOADS_DIR
+  ? path.resolve(process.env.UPLOADS_DIR)
+  : path.resolve(__dirname, "../uploads");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: frontendUrl ? [frontendUrl] : true,
+  }),
+);
 app.use(express.json());
 app.use("/uploads", express.static(uploadsDir));
 

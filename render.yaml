@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: football-balancer-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: MONGODB_DB_NAME
+        value: football_team_balancer
+      - key: ADMIN_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: UPLOADS_DIR
+        value: /var/data/uploads
+    disk:
+      name: football-balancer-uploads
+      mountPath: /var/data
+      sizeGB: 1
+
+  - type: web
+    name: football-balancer-client
+    runtime: static
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false

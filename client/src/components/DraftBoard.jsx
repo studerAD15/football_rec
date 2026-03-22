@@ -7,13 +7,14 @@ import {
   getTeamStrength,
   recommendPlayersForCaptain,
 } from "../lib/draft";
+import { assetUrl } from "../lib/api";
 
 function resolvePhotoUrl(photoUrl) {
   if (!photoUrl) {
     return "";
   }
 
-  return photoUrl.startsWith("/uploads/") ? `http://localhost:4000${photoUrl}` : photoUrl;
+  return assetUrl(photoUrl);
 }
 
 function PositionBadge({ position }) {

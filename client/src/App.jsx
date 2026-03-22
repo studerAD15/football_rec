@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Activity, CheckCircle2, Linkedin, Lock, Moon, RefreshCcw, SunMedium, Trophy, Users } from "lucide-react";
 import { AdminPage } from "./components/AdminPage";
 import { DraftBoard } from "./components/DraftBoard";
+import { apiUrl } from "./lib/api";
 
 function buildInitialDraftState(players) {
   return {
@@ -39,7 +40,7 @@ export default function App() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:4000/api/players");
+      const response = await fetch(apiUrl("/api/players"));
 
       if (!response.ok) {
         throw new Error("Unable to load players from the API.");

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, ImagePlus, KeyRound, Moon, ShieldCheck, SunMedium, Trash2, Upload } from "lucide-react";
 import { levels, positions } from "../lib/constants";
+import { apiUrl, assetUrl } from "../lib/api";
 
 const initialForm = {
   name: "",
@@ -14,7 +15,7 @@ function resolvePhotoUrl(photoUrl) {
     return "";
   }
 
-  return photoUrl.startsWith("/uploads/") ? `http://localhost:4000${photoUrl}` : photoUrl;
+  return assetUrl(photoUrl);
 }
 
 export function AdminPage({ theme, setTheme }) {
@@ -30,7 +31,7 @@ export function AdminPage({ theme, setTheme }) {
   }, [adminKey]);
 
   async function loadPlayers() {
-    const response = await fetch("http://localhost:4000/api/players");
+    const response = await fetch(apiUrl("/api/players"));
     const data = await response.json();
     setPlayers(data);
   }
@@ -63,7 +64,7 @@ export function AdminPage({ theme, setTheme }) {
         body.append("photo", form.photo);
       }
 
-      const response = await fetch("http://localhost:4000/api/admin/players", {
+      const response = await fetch(apiUrl("/api/admin/players"), {
         method: "POST",
         headers: {
           "x-admin-key": adminKey,
@@ -90,7 +91,7 @@ export function AdminPage({ theme, setTheme }) {
     setStatus("");
 
     try {
-      const response = await fetch(`http://localhost:4000/api/admin/players/${playerId}`, {
+      const response = await fetch(apiUrl(`/api/admin/players/${playerId}`), {
         method: "DELETE",
         headers: {
           "x-admin-key": adminKey,
