@@ -34,13 +34,13 @@ function TeamCard({ captain, team, active }) {
 
   return (
     <div
-      className={`rounded-[1.75rem] border p-5 transition ${
+      className={`rounded-[1.4rem] border p-4 transition sm:rounded-[1.75rem] sm:p-5 ${
         active
           ? "border-[color:var(--line-strong)] bg-[color:var(--badge)]"
           : "border-[color:var(--line)] bg-[color:var(--panel-soft)]"
       }`}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <Crown size={18} className={active ? "text-[color:var(--accent)]" : "text-[color:var(--text-muted)]"} />
           <h3 className="font-semibold text-[color:var(--text-main)]">Captain {captain}</h3>
@@ -59,7 +59,7 @@ function TeamCard({ captain, team, active }) {
           team.map((player) => (
             <div
               key={player.id}
-              className="flex items-center justify-between rounded-2xl border border-[color:var(--line)] bg-[color:var(--panel-strong)] px-3 py-3"
+              className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-[color:var(--line)] bg-[color:var(--panel-strong)] px-3 py-3"
             >
               <div>
                 <p className="font-medium text-[color:var(--text-main)]">{player.name}</p>
@@ -88,34 +88,34 @@ export function DraftBoard({ players }) {
 
   return (
     <div className="grid gap-6">
-      <div className="overflow-hidden rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--panel)] p-5 shadow-[var(--shadow)] backdrop-blur sm:p-6">
+      <div className="overflow-hidden rounded-[1.7rem] border border-[color:var(--line)] bg-[color:var(--panel)] p-4 shadow-[var(--shadow)] backdrop-blur sm:rounded-[2rem] sm:p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <p className="font-section text-xs uppercase tracking-[0.22em] text-[color:var(--text-muted)]">Main Arena</p>
-            <h2 className="font-display mt-2 text-3xl font-black text-[color:var(--text-main)] sm:text-4xl">Draft Arena</h2>
-            <p className="mt-3 text-sm leading-7 text-[color:var(--text-soft)] sm:text-base">
+            <h2 className="font-display mt-2 text-[2rem] font-black text-[color:var(--text-main)] sm:text-4xl">Draft Arena</h2>
+            <p className="mt-2 text-sm leading-6 text-[color:var(--text-soft)] sm:mt-3 sm:leading-7 sm:text-base">
               Captain {players.turn} picks now. Recommendations now favor Pro players first, then Intermediate, then Beginner.
             </p>
           </div>
-          <div className="rounded-full border border-[color:var(--line-strong)] bg-[color:var(--badge)] px-4 py-2 text-sm text-[color:var(--accent)]">
+          <div className="rounded-full border border-[color:var(--line-strong)] bg-[color:var(--badge)] px-3 py-2 text-sm text-[color:var(--accent)] sm:px-4">
             Current strength gap: {strengthGap}
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <div className="mt-5 grid gap-3 sm:mt-6 sm:gap-4 lg:grid-cols-2">
           <TeamCard captain="A" team={teams.A} active={players.turn === "A"} />
           <TeamCard captain="B" team={teams.B} active={players.turn === "B"} />
         </div>
       </div>
 
-      <div className="rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--panel)] p-5 shadow-[var(--shadow)] backdrop-blur sm:p-6">
-        <div className="mb-5 flex items-center gap-2 text-sm text-[color:var(--accent)]">
+      <div className="rounded-[1.7rem] border border-[color:var(--line)] bg-[color:var(--panel)] p-4 shadow-[var(--shadow)] backdrop-blur sm:rounded-[2rem] sm:p-6">
+        <div className="mb-4 flex items-center gap-2 text-sm text-[color:var(--accent)] sm:mb-5">
           <Sparkles size={16} />
           If Captain {players.turn} picks now, Captain {nextCaptain} gets the next turn.
         </div>
 
         <AnimatePresence>
-          <div className="grid gap-6 lg:grid-cols-2 2xl:grid-cols-3">
+          <div className="grid gap-4 sm:gap-6 lg:grid-cols-2 2xl:grid-cols-3">
             {recommended.length === 0 ? (
               <div className="col-span-full rounded-[1.75rem] border border-dashed border-[color:var(--line)] bg-[color:var(--panel-soft)] p-8 text-center">
                 <p className="font-display text-lg font-semibold text-[color:var(--text-main)]">
@@ -137,13 +137,13 @@ export function DraftBoard({ players }) {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.24, delay: index * 0.04 }}
                 onClick={() => handlePick(player.id)}
-                className={`overflow-hidden rounded-[1.9rem] border text-left transition hover:-translate-y-1 ${
+                className={`overflow-hidden rounded-[1.5rem] border text-left transition hover:-translate-y-1 sm:rounded-[1.9rem] ${
                   recommendedIds.has(player.id)
                     ? "border-[color:var(--line-strong)] bg-[color:var(--badge)]"
                     : "border-[color:var(--line)] bg-[color:var(--panel-soft)] hover:border-[color:var(--line-strong)]"
                 }`}
               >
-                <div className="relative h-64 bg-gradient-to-br from-emerald-700/70 via-teal-700/40 to-slate-950 sm:h-72">
+                <div className="relative h-44 bg-gradient-to-br from-emerald-700/70 via-teal-700/40 to-slate-950 sm:h-72">
                   {player.photoUrl ? (
                     <img
                       src={resolvePhotoUrl(player.photoUrl)}
@@ -162,10 +162,10 @@ export function DraftBoard({ players }) {
                   ) : null}
                 </div>
 
-                <div className="space-y-4 p-6">
+                <div className="space-y-3 p-4 sm:space-y-4 sm:p-6">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="text-2xl font-semibold text-[color:var(--text-main)]">{player.name}</h3>
+                      <h3 className="text-xl font-semibold text-[color:var(--text-main)] sm:text-2xl">{player.name}</h3>
                       <p className="text-sm text-[color:var(--text-soft)]">{player.skillLevel}</p>
                     </div>
                     <span className="rounded-full border border-[color:var(--line)] bg-[color:var(--panel-strong)] px-3 py-1 text-sm text-[color:var(--text-main)]">
@@ -173,7 +173,7 @@ export function DraftBoard({ players }) {
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <PositionBadge position={player.position} />
                     <span className="text-xs text-[color:var(--text-muted)]">
                       Priority {getPlayerWeight(player)} - Balance delta {player.recommendationScore}
